@@ -1,0 +1,12 @@
+﻿@model RoadForum.Models.Discussion
+
+@{
+    ViewData["Title"] = "Discussion Details";
+}
+
+<h1>@Model.Title</h1>
+<p><strong>Content:</strong> @Model.Content</p>
+<p><strong>Image:</strong> <img src="@Model.ImageFilename" alt="Discussion Image" /></p>
+<p><strong>Created On:</strong> @Model.CreateDate.ToString("g")</p>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Discussions</a>

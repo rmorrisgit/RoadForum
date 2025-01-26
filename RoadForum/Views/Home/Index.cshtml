@@ -1,0 +1,18 @@
+﻿@model List<RoadForum.Models.Discussion>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>All FORUM</h1>
+
+@foreach (var item in Model)
+{
+    <p>
+        @item.Title<br />
+        @item.Content<br />
+        @item.ImageFilename<br />
+
+        <a asp-controller="Home" asp-action="DiscussionDetails" asp-route-id="@item.DiscussionId">Display discussion</a>
+    </p>
+}
