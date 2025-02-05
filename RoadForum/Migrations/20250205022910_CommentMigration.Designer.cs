@@ -12,7 +12,7 @@ using RoadForum.Data;
 namespace RoadForum.Migrations
 {
     [DbContext(typeof(RoadForumContext))]
-    [Migration("20250205013105_CommentMigration")]
+    [Migration("20250205022910_CommentMigration")]
     partial class CommentMigration
     {
         /// <inheritdoc />

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
+
 using RoadForum.Data;
 using RoadForum.Models;
 
@@ -33,8 +36,8 @@ namespace RoadForum.Controllers
                 return NotFound();
             }
 
-            var discussion = await _context.Discussion
-                .FirstOrDefaultAsync(m => m.DiscussionId == id);
+            var discussion = await _context.Discussion.FirstOrDefaultAsync(m => m.DiscussionId == id);
+
             if (discussion == null)
             {
                 return NotFound();
@@ -73,7 +76,11 @@ namespace RoadForum.Controllers
                 return NotFound();
             }
 
-            var discussion = await _context.Discussion.FindAsync(id);
+            //var discussion = await _context.Discussion.FindAsync(id);
+            var discussion = await _context.Discussion.Include(m => m.Comments).FirstOrDefaultAsync(m => m.DiscussionId == id);
+
+
+
             if (discussion == null)
             {
                 return NotFound();
@@ -124,8 +131,9 @@ namespace RoadForum.Controllers
                 return NotFound();
             }
 
-            var discussion = await _context.Discussion
-                .FirstOrDefaultAsync(m => m.DiscussionId == id);
+            var discussion = await _context.Discussion.FirstOrDefaultAsync(m => m.DiscussionId == id);
+
+
             if (discussion == null)
             {
                 return NotFound();
@@ -133,6 +141,7 @@ namespace RoadForum.Controllers
 
             return View(discussion);
         }
+
 
         // POST: Discussions/Delete/5
         [HttpPost, ActionName("Delete")]
