@@ -15,5 +15,6 @@ namespace RoadForum.Data
         }
 
         public DbSet<RoadForum.Models.Discussion> Discussion { get; set; } = default!;
+        public DbSet<RoadForum.Models.Comment> Comment { get; set; } = default!;
     }
 }
