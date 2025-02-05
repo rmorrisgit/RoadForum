@@ -14,5 +14,17 @@
         @item.ImageFilename<br />
 
         <a asp-controller="Home" asp-action="DiscussionDetails" asp-route-id="@item.DiscussionId">Display discussion</a>
+
+        <div class="mb-3">
+            <a asp-action="Create" asp-controller="Comments" asp-route-id="@item.DiscussionId" class="pe-2">Add new comment</a>
+
+            @if (item.Comments != null)
+            {
+                foreach (var comment in item.Comments)
+                {
+                    <span class="badge rounded-pill text-bg-light pe-2">@comment.CommentId <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.CommentId">x</a> </span>
+                }
+            }
+        </div>
     </p>
 }

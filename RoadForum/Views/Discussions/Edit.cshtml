@@ -35,21 +35,6 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-
-
-                <div class="mb-3">
-                    <a asp-action="Create" asp-controller="Comments" asp-route-id="@Model.DiscussionId" class="pe-2">Add new comment</a>
-
-                @if (Model.Comments != null)
-                {
-                    foreach (var comment in Model.Comments)
-                    {
-                        <span class="badge rounded-pill text-bg-light pe-2">@comment.CommentId <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.CommentId">x</a> </span>
-                    }
-                }
-
-
-
             </div>
         </form>
     </div>

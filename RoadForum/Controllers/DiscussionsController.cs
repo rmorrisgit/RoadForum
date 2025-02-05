@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Versioning;
-
 using RoadForum.Data;
 using RoadForum.Models;
 
@@ -37,7 +34,6 @@ namespace RoadForum.Controllers
             }
 
             var discussion = await _context.Discussion.FirstOrDefaultAsync(m => m.DiscussionId == id);
-
             if (discussion == null)
             {
                 return NotFound();
@@ -57,16 +53,32 @@ namespace RoadForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DiscussionId,Title,Content,ImageFilename,CreateDate")] Discussion discussion)
+        public async Task<IActionResult> Create([Bind("DiscussionId,Title,Content,ImageFile,CreateDate")] Discussion discussion)
         {
+
+            discussion.ImageFilename = Guid.NewGuid().ToString() + Path.GetExtension(discussion.ImageFile?.FileName);
+
             if (ModelState.IsValid)
             {
+                //save the photo in database
                 _context.Add(discussion);
                 await _context.SaveChangesAsync();
+
+                // Save the uploaded file after the photo is saved in the database.
+                if (discussion.ImageFile != null)
+                {
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", discussion.ImageFilename);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await discussion.ImageFile.CopyToAsync(fileStream);
+                    }
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(discussion);
         }
+
 
         // GET: Discussions/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -76,11 +88,7 @@ namespace RoadForum.Controllers
                 return NotFound();
             }
 
-            //var discussion = await _context.Discussion.FindAsync(id);
-            var discussion = await _context.Discussion.Include(m => m.Comments).FirstOrDefaultAsync(m => m.DiscussionId == id);
-
-
-
+            var discussion = await _context.Discussion.FindAsync(id);
             if (discussion == null)
             {
                 return NotFound();
@@ -131,9 +139,8 @@ namespace RoadForum.Controllers
                 return NotFound();
             }
 
-            var discussion = await _context.Discussion.FirstOrDefaultAsync(m => m.DiscussionId == id);
-
-
+            var discussion = await _context.Discussion
+                .FirstOrDefaultAsync(m => m.DiscussionId == id);
             if (discussion == null)
             {
                 return NotFound();
@@ -141,7 +148,6 @@ namespace RoadForum.Controllers
 
             return View(discussion);
         }
-
 
         // POST: Discussions/Delete/5
         [HttpPost, ActionName("Delete")]
