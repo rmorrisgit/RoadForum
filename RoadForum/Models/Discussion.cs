@@ -11,7 +11,7 @@ namespace RoadForum.Models
         // Non-nullable string properties
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
-        public string ImageFilename { get; set; } = string.Empty;
+        public string? ImageFilename { get; set; }
 
         // Property for file upload, not mapped in EF
         [NotMapped]
