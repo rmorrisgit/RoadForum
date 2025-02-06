@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +46,6 @@ namespace RoadForum.Controllers
         }
 
         // GET: Comments/Create
-        // GET: Comments/Create
         public IActionResult Create(int discussionId)
         {
             if (discussionId == 0)
@@ -55,24 +53,34 @@ namespace RoadForum.Controllers
                 return NotFound(); // Ensure a valid ID is passed
             }
 
-            var comment = new Comment { DiscussionId = discussionId, CreateDate = DateTime.Now };
-            return View(comment); // Ensure "Create.cshtml" exists in Views/Comments/
+            // Initialize a new comment with the current date and the discussion ID
+            var comment = new Comment
+            {
+                DiscussionId = discussionId,
+                CreateDate = DateTime.Now
+            };
+
+            return View(comment); // Render the Create view
         }
 
-
         // POST: Comments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentId,Content,CreateDate,DiscussionId")] Comment comment)
+        public async Task<IActionResult> Create([Bind("Content,DiscussionId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
+                // Automatically set the CreateDate when saving the comment
+                comment.CreateDate = DateTime.Now;
+
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
+
+                // Redirect to the DiscussionDetails view in the Home controller
                 return RedirectToAction("DiscussionDetails", "Home", new { id = comment.DiscussionId });
             }
+
+            // Reload the discussion dropdown in case of an error
             ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
             return View(comment);
         }
@@ -90,16 +98,15 @@ namespace RoadForum.Controllers
             {
                 return NotFound();
             }
+
             ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
             return View(comment);
         }
 
         // POST: Comments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CommentId,Content,CreateDate,DiscussionId")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("CommentId,Content,DiscussionId")] Comment comment)
         {
             if (id != comment.CommentId)
             {
@@ -110,6 +117,13 @@ namespace RoadForum.Controllers
             {
                 try
                 {
+                    // Preserve the original CreateDate
+                    var existingComment = await _context.Comment.AsNoTracking().FirstOrDefaultAsync(c => c.CommentId == id);
+                    if (existingComment != null)
+                    {
+                        comment.CreateDate = existingComment.CreateDate;
+                    }
+
                     _context.Update(comment);
                     await _context.SaveChangesAsync();
                 }
@@ -126,6 +140,7 @@ namespace RoadForum.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
             return View(comment);
         }
