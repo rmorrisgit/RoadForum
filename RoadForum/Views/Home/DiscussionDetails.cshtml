@@ -10,17 +10,13 @@
             <!-- Left column: Date Created & Icons -->
             <div class="col-md-2 text-center d-flex flex-column justify-content-center align-items-center bg-light p-3">
                 <span class="text-muted">@Model.CreateDate.ToString("MMMM dd, yyyy")</span>
-
             </div>
 
             <!-- Middle column: Discussion Details -->
             <div class="col-md-8">
                 <div class="card-body">
-                    <!-- Title -->
                     <h5 class="card-title">@Model.Title</h5>
-                    <!-- Description -->
                     <p class="card-text">@Model.Content</p>
-                    <!-- Created On -->
                     <p class="text-muted"><strong>Created On:</strong> @Model.CreateDate.ToString("g")</p>
                 </div>
             </div>
@@ -32,16 +28,39 @@
                     <img src="@Model.ImageFilename" alt="Discussion Image" class="img-fluid rounded" />
                 }
             </div>
-           
         </div>
-
-  
     </div>
+
+    <!-- 🗨️ Comments Section -->
+    <h3>Comments</h3>
+    <div class="card">
+        <div class="card-body">
+            @if (Model.Comments != null && Model.Comments.Any())
+            {
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="mb-3 p-2 border-bottom">
+                        <p class="fw-bold">🗨️ @comment.Content</p>
+                        <p class="text-muted">Posted on @comment.CreateDate.ToString("g")</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No comments yet. Be the first to comment!</p>
+            }
+        </div>
+    </div>
+
+    <!-- Add Comment Button -->
+    <div class="mt-3">
+        <a asp-action="Create" asp-controller="Comments" asp-route-discussionId="@Model.DiscussionId" class="btn btn-primary">
+            <i class="fas fa-comment"></i> Add Comment
+        </a>
+    </div>
+
     <!-- Back to Discussions Button -->
-    <div class=" text-end p-2">
-        <a asp-action="Index" class="btn btn-secondary">Back to Discussions</a>
+    <div class="text-end p-2">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Back to Discussions</a>
     </div>
-
 </div>
-
-<!-- Bootstrap JavaScript -->

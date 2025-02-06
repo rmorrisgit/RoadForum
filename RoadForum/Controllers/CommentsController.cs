@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -46,11 +47,18 @@ namespace RoadForum.Controllers
         }
 
         // GET: Comments/Create
-        public IActionResult Create()
+        // GET: Comments/Create
+        public IActionResult Create(int discussionId)
         {
-            ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId");
-            return View();
+            if (discussionId == 0)
+            {
+                return NotFound(); // Ensure a valid ID is passed
+            }
+
+            var comment = new Comment { DiscussionId = discussionId, CreateDate = DateTime.Now };
+            return View(comment); // Ensure "Create.cshtml" exists in Views/Comments/
         }
+
 
         // POST: Comments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -63,7 +71,7 @@ namespace RoadForum.Controllers
             {
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DiscussionDetails", "Home", new { id = comment.DiscussionId });
             }
             ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
             return View(comment);

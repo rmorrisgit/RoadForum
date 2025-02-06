@@ -25,11 +25,11 @@ namespace RoadForum.Controllers
             // Pass the list to the view
             return View(discussions);
         }
-
         public async Task<IActionResult> DiscussionDetails(int id)
         {
-            // Fetch the discussion by ID from the database
-            var discussion = await _context.Discussion.FirstOrDefaultAsync(d => d.DiscussionId == id);
+            var discussion = await _context.Discussion
+                .Include(d => d.Comments) // Ensure comments are loaded
+                .FirstOrDefaultAsync(m => m.DiscussionId == id);
 
             if (discussion == null)
             {
@@ -38,5 +38,6 @@ namespace RoadForum.Controllers
 
             return View(discussion);
         }
+
     }
 }
