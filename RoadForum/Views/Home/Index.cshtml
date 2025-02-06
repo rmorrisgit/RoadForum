@@ -1,30 +1,37 @@
-﻿@model List<RoadForum.Models.Discussion>
+﻿@model IEnumerable<RoadForum.Models.Discussion>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Discussions";
 }
 
-<h1>All FORUM</h1>
+<h1>Discussions</h1>
 
-@foreach (var item in Model)
-{
-    <p>
-        @item.Title<br />
-        @item.Content<br />
-        @item.ImageFilename<br />
-
-        <a asp-controller="Home" asp-action="DiscussionDetails" asp-route-id="@item.DiscussionId">Display discussion</a>
-
-        <div class="mb-3">
-            <a asp-action="Create" asp-controller="Comments" asp-route-id="@item.DiscussionId" class="pe-2">Add new comment</a>
-
-            @if (item.Comments != null)
-            {
-                foreach (var comment in item.Comments)
-                {
-                    <span class="badge rounded-pill text-bg-light pe-2">@comment.CommentId <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.CommentId">x</a> </span>
-                }
-            }
+<div class="container">
+    @foreach (var item in Model)
+    {
+        <div class="card mb-3">
+            <div class="row g-0">
+                <!-- Left column: DateCreated -->
+                <div class="col-md-2 text-center d-flex flex-column justify-content-center align-items-center bg-light">
+                    <span class="text-muted">@item.CreateDate.ToString("MMMM dd, yyyy")</span>
+                </div>
+                <!-- Middle column: Title and Content  ^hh:mm tt^-->
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <!-- Title -->
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                        <!-- Description -->
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+                    </div>
+                </div>
+                <!-- Right column: Image -->
+                <div class="col-md-2 d-flex align-items-center justify-content-center">
+                    @if (!string.IsNullOrEmpty(item.ImageFilename))
+                    {
+                        <img src="@Url.Content("~/images/" + item.ImageFilename)" alt="Discussion Image" class="img-fluid rounded" style="max-height: 150px;" />
+                    }
+                </div>
+            </div>
         </div>
-    </p>
-}
+    }
+</div>
