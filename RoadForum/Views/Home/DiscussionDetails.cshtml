@@ -21,11 +21,10 @@
                 </div>
             </div>
 
-            <!-- Right column: Image (If Exists) -->
             <div class="col-md-2 d-flex align-items-center justify-content-center">
                 @if (!string.IsNullOrWhiteSpace(Model.ImageFilename))
                 {
-                    <img src="@Model.ImageFilename" alt="Discussion Image" class="img-fluid rounded" />
+                    <img src="/photos/@Model.ImageFilename" alt="Image" class="thumbnail" />
                 }
             </div>
         </div>
@@ -69,12 +68,7 @@
         </form>
     </div>
 
-    <!-- Add Comment Button -->
-    <div class="mt-3">
-        <a asp-action="Create" asp-controller="Comments" asp-route-discussionId="@Model.DiscussionId" class="btn btn-primary">
-            <i class="fas fa-comment"></i> Add Comment
-        </a>
-    </div>
+
 
     <!-- Back to Discussions Button -->
     <div class="text-end p-2">
