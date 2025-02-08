@@ -53,20 +53,23 @@
         <p>No comments yet.</p>
     }
     <!-- Add Comment Form -->
+    <!-- Add Comment Form -->
     <div class="mt-4">
         <h4>Add a Comment</h4>
-        <form asp-controller="Comments" asp-action="Create" method="post">
-            <div class="form-group">
-                <input type="hidden" asp-for="DiscussionId" value="@Model.DiscussionId" />
-                <label for="Content">Comment</label>
-                <textarea asp-for="Content" class="form-control" rows="3" placeholder="Write your comment here..."></textarea>
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
-    </div>
+    <form asp-controller="Comments" asp-action="Create" method="post" autocomplete="off">
+        <div class="form-group">
+            <input type="hidden" name="DiscussionId" value="@Model.DiscussionId" />
+
+            <label for="Content">Comment</label>
+            <textarea name="Content" id="commentContent" class="form-control" rows="3"></textarea>
+
+            <span class="text-danger"></span>
+        </div>
+
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
 
 
 
