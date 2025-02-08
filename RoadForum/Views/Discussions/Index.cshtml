@@ -21,7 +21,13 @@
                 }
             </div>
             <div class="col-md-8">
-                <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                <h4>
+                    <a asp-action="DiscussionDetails" asp-controller="Home" asp-route-id="@item.DiscussionId"
+                       class="text-dark text-decoration-underline hover-link">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
+                </h4>
+
                 <p>@Html.DisplayFor(modelItem => item.Content)</p>
                 <small class="text-muted">@Html.DisplayFor(modelItem => item.CreateDate)</small>
             </div>

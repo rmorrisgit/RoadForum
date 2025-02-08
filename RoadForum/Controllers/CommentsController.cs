@@ -26,25 +26,6 @@ namespace RoadForum.Controllers
             return View(await roadForumContext.ToListAsync());
         }
 
-        // GET: Comments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comment = await _context.Comment
-                .Include(c => c.Discussion)
-                .FirstOrDefaultAsync(m => m.CommentId == id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            return View(comment);
-        }
-
         // GET: Comments/Create
         public IActionResult Create(int discussionId)
         {
@@ -85,65 +66,7 @@ namespace RoadForum.Controllers
             return View(comment);
         }
 
-        // GET: Comments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var comment = await _context.Comment.FindAsync(id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
-            return View(comment);
-        }
-
-        // POST: Comments/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CommentId,Content,DiscussionId")] Comment comment)
-        {
-            if (id != comment.CommentId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    // Preserve the original CreateDate
-                    var existingComment = await _context.Comment.AsNoTracking().FirstOrDefaultAsync(c => c.CommentId == id);
-                    if (existingComment != null)
-                    {
-                        comment.CreateDate = existingComment.CreateDate;
-                    }
-
-                    _context.Update(comment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CommentExists(comment.CommentId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
-            return View(comment);
-        }
 
         // GET: Comments/Delete/5
         public async Task<IActionResult> Delete(int? id)

@@ -29,12 +29,18 @@
                 <!-- Middle column: Title and Content -->
                 <div class="col-md-8">
                     <div class="card-body">
-                        <!-- Title -->
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                        <!-- Title with Link -->
+                        <h5 class="card-title" style="text-decoration:underline">
+                            <a asp-action="DiscussionDetails" asp-route-id="@item.DiscussionId" class="text-dark text-decoration-none hover-link">
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </a>
+                        </h5>
+
                         <!-- Description -->
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
                     </div>
                 </div>
+
 
                 <!-- Right column: Image -->
                 <div class="col-md-2 d-flex align-items-center justify-content-center">
