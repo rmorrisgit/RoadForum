@@ -58,7 +58,7 @@ namespace RoadForum.Controllers
                 await _context.SaveChangesAsync();
 
                 // Redirect to the DiscussionDetails view in the Home controller
-                return RedirectToAction("DiscussionDetails", "Home", new { id = comment.DiscussionId });
+                return RedirectToAction("GetDiscussion", "Home", new { id = comment.DiscussionId });
             }
 
             // Reload the discussion dropdown in case of an error
