@@ -60,6 +60,9 @@ namespace RoadForum.Controllers
 
             if (ModelState.IsValid)
             {
+
+                discussion.CreateDate = DateTime.Now;
+
                 //save the photo in database
                 _context.Add(discussion);
                 await _context.SaveChangesAsync();
