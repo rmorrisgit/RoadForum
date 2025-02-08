@@ -19,12 +19,13 @@ namespace RoadForum.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Fetch discussions from the database
-            var discussions = await _context.Discussion.ToListAsync();
+            var discussions = await _context.Discussion
+                .Include(d => d.Comments) // Ensure comments are loaded
+                .ToListAsync();
 
-            // Pass the list to the view
             return View(discussions);
         }
+
         public async Task<IActionResult> DiscussionDetails(int id)
         {
             var discussion = await _context.Discussion

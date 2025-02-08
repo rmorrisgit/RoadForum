@@ -22,8 +22,13 @@ namespace RoadForum.Controllers
         // GET: Discussions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Discussion.ToListAsync());
+            var discussions = await _context.Discussion
+                .Include(d => d.Comments) // Load related comments
+                .ToListAsync();
+
+            return View(discussions);
         }
+
 
         // GET: Discussions/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -8,25 +8,19 @@ namespace RoadForum.Models
     {
         public int DiscussionId { get; set; }
 
-        // Non-nullable string properties
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public string? ImageFilename { get; set; }
 
-        // Property for file upload, not mapped in EF
         [NotMapped]
         [Display(Name = "Photograph")]
-        public IFormFile? ImageFile { get; set; } // nullable!
+        public IFormFile? ImageFile { get; set; }
 
         [Display(Name = "Date Created")]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-
-        // Navigation property
-        public List<Comment>? Comments { get; set; }
-
-
-
-
+        // Initialize Comments as an empty list to avoid null issues
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
+
 }

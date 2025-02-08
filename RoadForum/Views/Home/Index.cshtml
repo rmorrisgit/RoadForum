@@ -15,11 +15,12 @@
                 <div class="col-md-2 text-center d-flex flex-column justify-content-center align-items-center p-3">
                     <span class="text-muted">@item.CreateDate.ToString("MMMM dd, yyyy")</span>
                     <div class="mt-2">
-                        <!-- Add Comment (Links to Create Comment) -->
                         <a asp-action="GetDiscussion" asp-route-id="@item.DiscussionId" class="text-dark">
-                            <i class="fas fa-comment"></i>
+                            <i class="fas fa-comment"></i> @(item.Comments?.Count ?? 0)
                         </a>
                     </div>
+
+
                 </div>
 
                 <!-- Middle column: Title and Content -->
