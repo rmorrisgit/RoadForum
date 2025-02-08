@@ -22,7 +22,7 @@
             </div>
             <div class="col-md-8">
                 <h4>
-                    <a asp-action="DiscussionDetails" asp-controller="Home" asp-route-id="@item.DiscussionId"
+                    <a asp-action="GetDiscussion" asp-controller="Home" asp-route-id="@item.DiscussionId"
                        class="text-dark text-decoration-underline hover-link">
                         @Html.DisplayFor(modelItem => item.Title)
                     </a>
