@@ -39,5 +39,23 @@ namespace RoadForum.Controllers
             return View(discussion);
         }
 
+        public async Task<IActionResult> GetDiscussion(int id)
+        {
+            var discussion = await _context.Discussion
+                .Include(d => d.Comments) // Ensure comments are loaded
+                .FirstOrDefaultAsync(m => m.DiscussionId == id);
+
+            if (discussion == null)
+            {
+                return NotFound();
+            }
+
+            return View(discussion);
+        }
+
+
+
+
+
     }
 }
