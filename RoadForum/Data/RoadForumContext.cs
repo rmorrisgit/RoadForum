@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RoadForum.Models;
 
 namespace RoadForum.Data
 {
-    public class RoadForumContext : DbContext
+    public class RoadForumContext : IdentityDbContext
     {
         public RoadForumContext (DbContextOptions<RoadForumContext> options)
             : base(options)
