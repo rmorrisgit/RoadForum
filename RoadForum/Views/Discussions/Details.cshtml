@@ -1,10 +1,13 @@
 ﻿@model RoadForum.Models.Discussion
 
 @{
-    ViewData["Title"] = "Details";
-}
+    ViewData["Title"] = "Get Discussion";
+    string imageUrl = Url.Content("/photos/" + @Model.ImageFilename);
 
-<h1>Details</h1>
+    <div>
+        <img src="@imageUrl" class="img-fluid" alt="@Model.Content" />
+    </div>
+}
 
 <div>
     <h4>Discussion</h4>
