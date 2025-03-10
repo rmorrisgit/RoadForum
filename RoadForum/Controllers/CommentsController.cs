@@ -57,16 +57,20 @@ namespace RoadForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Content,DiscussionId")] Comment comment)
         {
+            comment.CreateDate = DateTime.Now;
+
+            //Set the user id of the person logged in 
+            comment.ApplicationUserId = _userManager.GetUserId(User);
+
             if (ModelState.IsValid)
             {
                 // Automatically set the CreateDate when saving the comment
-                comment.CreateDate = DateTime.Now;
 
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
 
                 // Redirect to the DiscussionDetails view in the Home controller
-                return RedirectToAction("GetDiscussion", "Home", new { id = comment.DiscussionId });
+                return RedirectToAction("DiscussionDetails", "Home", new { id = comment.DiscussionId });
             }
 
             // Reload the discussion dropdown in case of an error
