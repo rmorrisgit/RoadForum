@@ -11,30 +11,29 @@
     {
         <div class="card mb-3 ">
             <div class="row g-0">
-                <!-- Left column: DateCreated with icons -->
-                <div class="col-md-2 text-center d-flex flex-column justify-content-center align-items-center p-3">
-                    <span class="text-muted">@item.CreateDate.ToString("MMMM dd, yyyy")</span>
-                    <div class="mt-2">
-                        <a asp-action="GetDiscussion" asp-route-id="@item.DiscussionId" class="text-dark">
-                            <i class="fas fa-comment"></i> @(item.Comments?.Count ?? 0)
-                        </a>
-                    </div>
 
-
-                </div>
 
                 <!-- Middle column: Title and Content -->
-                <div class="col-md-8">
-                    <div class="card-body">
+                <div class="col-md-6">
+                    <div class="card-body ">
                         <!-- Title with Link -->
                         <h5 class="card-title" style="text-decoration:underline">
                             <a asp-action="GetDiscussion" asp-route-id="@item.DiscussionId" class="text-dark text-decoration-none hover-link">
                                 @Html.DisplayFor(modelItem => item.Title)
                             </a>
                         </h5>
-
+              
                         <!-- Description -->
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+                    </div>
+                    <!-- DateCreated icons -->
+                    <div class="col-md-2 text-center d-flex p-3 " style="white-space: nowrap">
+                        <span class="text-muted">@item.CreateDate.ToString("MMMM dd, yyyy")</span>
+                        <div class="ms-3">
+                            <a asp-action="GetDiscussion" asp-route-id="@item.DiscussionId" class="text-dark">
+                                <i class="fas fa-comment"></i> @(item.Comments?.Count ?? 0)
+                            </a>
+                        </div>
                     </div>
                 </div>
 
