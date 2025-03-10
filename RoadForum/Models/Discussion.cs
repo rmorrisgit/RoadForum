@@ -22,6 +22,7 @@ namespace RoadForum.Models
 
         // Initialize Comments as an empty list to avoid null issues
         public List<Comment> Comments { get; set; } = new List<Comment>();
+
         // Foreign key (AspNetUsers table)
         public string ApplicationUserId { get; set; } = string.Empty;
 

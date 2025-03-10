@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,6 @@ namespace RoadForum.Controllers
     {
         private readonly RoadForumContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-
 
         public DiscussionsController(RoadForumContext context, UserManager<ApplicationUser> userManager)
         {
@@ -74,9 +74,9 @@ namespace RoadForum.Controllers
 
             discussion.ImageFilename = Guid.NewGuid().ToString() + Path.GetExtension(discussion.ImageFile?.FileName);
 
+
             if (ModelState.IsValid)
             {
-
 
                 //save the photo in database
                 _context.Add(discussion);
