@@ -33,6 +33,7 @@ namespace RoadForum.Controllers
             var userId = _userManager.GetUserId(User);
 
             var discussions = await _context.Discussion
+                .Where(m => m.ApplicationUserId == userId)
                 .Include(d => d.Comments) // Load related comments
                 .ToListAsync();
 
@@ -71,6 +72,9 @@ namespace RoadForum.Controllers
         public async Task<IActionResult> Create([Bind("DiscussionId,Title,Content,ImageFile,CreateDate")] Discussion discussion)
         {
             discussion.CreateDate = DateTime.Now;
+
+            //Set the user id of the person logged in 
+            discussion.ApplicationUserId = _userManager.GetUserId(User);
 
             discussion.ImageFilename = Guid.NewGuid().ToString() + Path.GetExtension(discussion.ImageFile?.FileName);
 

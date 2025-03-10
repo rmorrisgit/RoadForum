@@ -12,8 +12,8 @@ using RoadForum.Data;
 namespace RoadForum.Migrations
 {
     [DbContext(typeof(RoadForumContext))]
-    [Migration("20250310185153_AddUserId")]
-    partial class AddUserId
+    [Migration("20250310195120_addUserId")]
+    partial class addUserId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

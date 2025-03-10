@@ -1,4 +1,6 @@
-﻿using RoadForum.Data;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using RoadForum.Data;
 
 namespace RoadForum.Models
 {
@@ -14,6 +16,7 @@ namespace RoadForum.Models
 
         // Navigation property for Discussion
         public Discussion? Discussion { get; set; }
+
 
         // Foreign key (AspNetUsers table)
         public string ApplicationUserId { get; set; } = string.Empty;
