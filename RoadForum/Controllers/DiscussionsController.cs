@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,15 +17,21 @@ namespace RoadForum.Controllers
     public class DiscussionsController : Controller
     {
         private readonly RoadForumContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DiscussionsController(RoadForumContext context)
+
+        public DiscussionsController(RoadForumContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+
         }
 
         // GET: Discussions
         public async Task<IActionResult> Index()
         {
+            var userId = _userManager.GetUserId(User);
+
             var discussions = await _context.Discussion
                 .Include(d => d.Comments) // Load related comments
                 .ToListAsync();
@@ -63,13 +70,13 @@ namespace RoadForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DiscussionId,Title,Content,ImageFile,CreateDate")] Discussion discussion)
         {
+            discussion.CreateDate = DateTime.Now;
 
             discussion.ImageFilename = Guid.NewGuid().ToString() + Path.GetExtension(discussion.ImageFile?.FileName);
 
             if (ModelState.IsValid)
             {
 
-                discussion.CreateDate = DateTime.Now;
 
                 //save the photo in database
                 _context.Add(discussion);

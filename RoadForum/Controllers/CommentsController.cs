@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,14 @@ namespace RoadForum.Controllers
     public class CommentsController : Controller
     {
         private readonly RoadForumContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CommentsController(RoadForumContext context)
+
+        public CommentsController(RoadForumContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+
         }
 
         // GET: Comments
