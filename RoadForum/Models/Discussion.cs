@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Azure;
+using RoadForum.Data;
 
 namespace RoadForum.Models
 {
@@ -21,6 +22,13 @@ namespace RoadForum.Models
 
         // Initialize Comments as an empty list to avoid null issues
         public List<Comment> Comments { get; set; } = new List<Comment>();
+
+        // Foreign key (AspNetUsers table)
+        public string ApplicationUserId { get; set; } = string.Empty;
+
+        // Navigation property
+        public ApplicationUser? ApplicationUser { get; set; } // nullable!!!
+
     }
 
 }

@@ -1,4 +1,6 @@
-﻿namespace RoadForum.Models
+﻿using RoadForum.Data;
+
+namespace RoadForum.Models
 {
     public class Comment
     {
@@ -14,5 +16,11 @@
 
         // Non-nullable navigation property for the related discussion
         public Discussion? Discussion { get; set; }
+        // Foreign key (AspNetUsers table)
+        public string ApplicationUserId { get; set; } = string.Empty;
+
+        // Navigation property
+        public ApplicationUser? ApplicationUser { get; set; } // nullable!!!
+
     }
 }
