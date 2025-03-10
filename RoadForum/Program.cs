@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RoadForumContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("RoadForumContext") ?? throw new InvalidOperationException("Connection string 'RoadForumContext' not found.")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<RoadForumContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<RoadForumContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

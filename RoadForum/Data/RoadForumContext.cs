@@ -8,7 +8,7 @@ using RoadForum.Models;
 
 namespace RoadForum.Data
 {
-    public class RoadForumContext : IdentityDbContext
+    public class RoadForumContext : IdentityDbContext<ApplicationUser>
     {
         public RoadForumContext (DbContextOptions<RoadForumContext> options)
             : base(options)
