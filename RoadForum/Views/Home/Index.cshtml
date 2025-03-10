@@ -14,7 +14,7 @@
                 <!-- FLEX ROW FIX -->
                 <!-- Middle column: Title and Content -->
                 <div class="flex-grow-1">
-                    <div class="card-body">
+                    <div class="card-body ">
                         <!-- Title with Link -->
                         <h5 class="card-title" style="text-decoration: underline; font-weight: bold">
                             <a asp-action="DiscussionDetails" asp-route-id="@item.DiscussionId" class="text-dark text-decoration-none hover-link">
@@ -22,8 +22,6 @@
                             </a>
                         </h5>
 
-                        <!-- Description -->
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
                     </div>
                     <!-- DateCreated and Comments -->
                     <div class="d-flex align-items-center ps-2 pt-2 mb-2" style="white-space: nowrap; margin-top: -11px;">

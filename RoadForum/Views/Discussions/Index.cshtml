@@ -9,37 +9,39 @@
 <p>
     <a asp-action="Create" class="btn btn-primary mt-3"><i class="fas fa-plus"></i> Create New</a>
 </p>
-
-<div class="container">
+<div class="container gx-0 col-md-8 ms-0 ps-0">
     @foreach (var item in Model)
     {
-        <div class="row border-bottom py-3">
-            <div class="col-md-2 text-center d-flex flex-column justify-content-center align-items-center p-3">
-                @if (!string.IsNullOrWhiteSpace(item.ImageFilename))
-                {
-                    <img src="/photos/@item.ImageFilename" alt="Image" class="img-fluid thumbnail" />
-                }
-       
-            </div>
-            <div class="col-md-8">
-         
+        <div class="border-bottom py-3 d-flex align-items-center">
+            <!-- FLEX FIX -->
+            <!-- Left: Title & Content -->
+            <div class="flex-grow-1">
                 <h4>
                     <a asp-action="DiscussionDetails" asp-controller="Home" asp-route-id="@item.DiscussionId"
                        class="text-dark text-decoration-underline hover-link">
                         @Html.DisplayFor(modelItem => item.Title)
                     </a>
                 </h4>
-
-                <p>@Html.DisplayFor(modelItem => item.Content)</p>
-                <small class="text-muted">@Html.DisplayFor(modelItem => item.CreateDate)
-
+                <p style="word-wrap: break-word">@Html.DisplayFor(modelItem => item.Content)</p>
+                <small class="text-muted">
+                    @Html.DisplayFor(modelItem => item.CreateDate)
                     <a asp-action="GetDiscussion" asp-controller="Home" asp-route-id="@item.DiscussionId" class="text-dark">
                         <i class="fas fa-comment"></i> @(item.Comments?.Count ?? 0)
                     </a>
                 </small>
             </div>
-            <div class="col-md-2 text-md-end text-center">
-                <a asp-action="Edit" asp-route-id="@item.DiscussionId" class="btn btn-sm ">
+
+            <!-- Middle: Image (fixed size, prevents wrapping) -->
+            <div class="flex-shrink-0 bg-dark text-center me-2" style="width: 80px;">
+                @if (!string.IsNullOrWhiteSpace(item.ImageFilename))
+                {
+                    <img src="/photos/@item.ImageFilename" alt="Image" class="thumbnail img-fluid">
+                }
+            </div>
+
+            <!-- Right: Actions -->
+            <div class="d-flex flex-column align-items-end text-end">
+                <a asp-action="Edit" asp-route-id="@item.DiscussionId" class="btn btn-sm">
                     <i class="fas fa-edit"></i> Edit
                 </a>
                 <a asp-action="DiscussionDetails" asp-controller="Home" asp-route-id="@item.DiscussionId" class="btn btn-sm">
@@ -49,6 +51,7 @@
                     <i class="fas fa-trash-alt"></i> Delete
                 </a>
             </div>
+
         </div>
     }
 </div>

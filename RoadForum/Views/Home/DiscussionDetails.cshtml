@@ -4,7 +4,10 @@
     ViewData["Title"] = "Discussion Details";
 }
 <h3 class="mt-3 mb-4">Discussions Details</h3>
-
+<!-- Back to Discussions Button -->
+<div class="text-end">
+    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Back to Discussions</a>
+</div>
 <div class="container mt-4 gx-0">
     <div class="card ">
         <div class="row g-0">
@@ -23,7 +26,7 @@
                         }
                     </div>
                     <!-- Add Comment Button -->
-                    <div>
+                    <div class="mt-3">
                         <a asp-action="Create" asp-controller="Comments" asp-route-discussionId="@Model.DiscussionId" class="">
                             <i class="fas fa-comment"></i> Reply
                         </a>
@@ -35,14 +38,11 @@
       
         </div>
     </div>
-
- 
     </
     <!-- 🗨️ Comments Section -->
-    <!-- Comments Section -->
     @if (Model.Comments != null && Model.Comments.Count > 0)
     {
-        <h3>Comments</h3>
+        <h3 class ="mt-3">Comments</h3>
         <div class="card">
             <div class="card-body">
                 @foreach (var comment in Model.Comments)
@@ -57,13 +57,10 @@
     }
     else
     {
-        <h3>Comments</h3>
+        <h3 class="mt-3">Comments</h3>
         <p>No comments yet.</p>
     }    <div class="col-md-9 d-flex justify-content-end ">
 
-        <!-- Back to Discussions Button -->
-        <div class="text-end">
-            <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Back to Discussions</a>
-        </div>
+
     </div>
 </div>
