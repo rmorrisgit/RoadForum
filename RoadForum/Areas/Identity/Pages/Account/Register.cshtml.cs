@@ -129,7 +129,7 @@ namespace RoadForum.Areas.Identity.Pages.Account
                     user.ImageFilename = $"/uploads/{newFileName}";
                 }
 
-                // Update user data in database
+                // mUpdate user data in database
                 await _userManager.UpdateAsync(user);
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
