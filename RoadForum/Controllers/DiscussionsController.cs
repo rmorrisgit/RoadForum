@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 using RoadForum.Data;
 using RoadForum.Models;
 
@@ -110,7 +112,12 @@ namespace RoadForum.Controllers
                 return NotFound();
             }
 
-            var discussion = await _context.Discussion.FindAsync(id);
+            var userId = _userManager.GetUserId(User);
+
+            var discussion = await _context.Discussion
+                 .Include(m => m.Comments)
+                 .Where(m => m.ApplicationUserId == userId)
+                 .FirstOrDefaultAsync(m => m.DiscussionId == id);
             if (discussion == null)
             {
                 return NotFound();
@@ -123,12 +130,13 @@ namespace RoadForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DiscussionId,Title,Content,ImageFilename,CreateDate")] Discussion discussion)
+        public async Task<IActionResult> Edit(int id, [Bind("DiscussionId,Title,Content,ImageFilename,CreateDate,ApplicationUserId")] Discussion discussion)
         {
             if (id != discussion.DiscussionId)
             {
                 return NotFound();
             }
+
 
             if (ModelState.IsValid)
             {
@@ -160,9 +168,12 @@ namespace RoadForum.Controllers
             {
                 return NotFound();
             }
+            var userId = _userManager.GetUserId(User);
 
             var discussion = await _context.Discussion
+                .Where(m => m.ApplicationUserId == userId)
                 .FirstOrDefaultAsync(m => m.DiscussionId == id);
+
             if (discussion == null)
             {
                 return NotFound();
@@ -171,19 +182,25 @@ namespace RoadForum.Controllers
             return View(discussion);
         }
 
-        // POST: Discussions/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var discussion = await _context.Discussion.FindAsync(id);
-            if (discussion != null)
+            var userId = _userManager.GetUserId(User);
+            var discussion = await _context.Discussion
+                .Where(m => m.ApplicationUserId == userId)
+                .FirstOrDefaultAsync(m => m.DiscussionId == id);
+
+            if (discussion == null)
             {
-                _context.Discussion.Remove(discussion);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            _context.Discussion.Remove(discussion);
+            await _context.SaveChangesAsync(); // Ensure changes are saved
+
+            return RedirectToAction("Index"); // Redirect to the discussion list or another relevant page
         }
 
         private bool DiscussionExists(int id)
