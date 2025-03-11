@@ -17,5 +17,6 @@ namespace RoadForum.Data
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
+
     }
 }
