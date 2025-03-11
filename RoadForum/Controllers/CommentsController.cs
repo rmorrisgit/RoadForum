@@ -30,11 +30,13 @@ namespace RoadForum.Controllers
         // GET: Comments
         public async Task<IActionResult> Index()
         {
-            var roadForumContext = _context.Comment.Include(c => c.Discussion);
+            var roadForumContext = _context.Comment
+                .Include(c => c.Discussion)
+                .Include(c => c.ApplicationUser); // Include the ApplicationUser to access user info
+
             return View(await roadForumContext.ToListAsync());
         }
 
-        // GET: Comments/Create
         public IActionResult Create(int discussionId)
         {
             if (discussionId == 0)
@@ -42,12 +44,18 @@ namespace RoadForum.Controllers
                 return NotFound(); // Ensure a valid ID is passed
             }
 
+            // Get the logged-in user's name
+            var userName = _userManager.GetUserName(User);
+
             // Initialize a new comment with the current date and the discussion ID
             var comment = new Comment
             {
                 DiscussionId = discussionId,
                 CreateDate = DateTime.Now
             };
+
+            // Pass the user name to the view
+            ViewData["UserName"] = userName;
 
             return View(comment); // Render the Create view
         }
@@ -60,7 +68,7 @@ namespace RoadForum.Controllers
             comment.CreateDate = DateTime.Now;
 
             //Set the user id of the person logged in 
-            comment.ApplicationUserId = _userManager.GetUserId(User);
+            comment.ApplicationUserId = _userManager.GetUserId(User);  // Set the logged-in user's ID
 
             if (ModelState.IsValid)
             {
