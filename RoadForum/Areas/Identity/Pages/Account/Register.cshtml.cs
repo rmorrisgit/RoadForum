@@ -102,11 +102,11 @@ namespace RoadForum.Areas.Identity.Pages.Account
                 user.Name = Input.Name;
                 user.Location = Input.Location;
 
-                // Save the uploaded file after the photo is saved in the database.
+                // Check if ImageFile is provided
                 if (Input.ImageFile != null)
                 {
-                    string imageFilename = Guid.NewGuid().ToString() + Path.GetExtension(Input.ImageFile?.FileName);
-
+                    // If the user uploaded a profile picture, save it
+                    string imageFilename = Guid.NewGuid().ToString() + Path.GetExtension(Input.ImageFile.FileName);
                     string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile_img", imageFilename);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -115,9 +115,14 @@ namespace RoadForum.Areas.Identity.Pages.Account
                     }
 
                     user.ImageFilename = imageFilename;
-
                 }
-                // Update user data in database
+                else
+                {
+                    // Set default image if no file was uploaded
+                    user.ImageFilename = "default-profile.png"; // Set your default image filename here
+                }
+
+                // Update user data in the database
                 await _userManager.UpdateAsync(user);
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
