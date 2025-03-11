@@ -1,5 +1,5 @@
 ﻿@model RoadForum.Models.Discussion
-
+<h4>Discussion</h4>
 @{
     ViewData["Title"] = "Get Discussion";
     string imageUrl = Url.Content("/photos/" + @Model.ImageFilename);
@@ -10,7 +10,7 @@
 }
 
 <div>
-    <h4>Discussion</h4>
+
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -26,12 +26,6 @@
             @Html.DisplayFor(model => model.Content)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageFilename)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageFilename)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>
         <dd class = "col-sm-10">
@@ -42,4 +36,7 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.DiscussionId">Edit</a> |
     <a asp-action="Index">Back to List</a>
+    <a asp-action="DiscussionDetails" asp-controller="Home" asp-route-id="@Model?.DiscussionId" class="btn btn-sm">
+        <i class="fas fa-info-circle"></i> View Comments
+    </a>
 </div>

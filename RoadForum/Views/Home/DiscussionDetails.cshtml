@@ -13,14 +13,23 @@
         <div class="row g-0">
             @if (Model.ApplicationUser != null)
             {
-                <div class="d-flex">
-                    <div></div>
+                <div class="d-flex align-items-center">
+                    <!-- User Name and Location -->
                     <div>
-                        @Model.ApplicationUser.Name<br />
-                        @Model.ApplicationUser.Location
+                        <div>@Model.ApplicationUser.Name</div>
+                        <div>@Model.ApplicationUser.Location</div>
                     </div>
+
+                    <!-- User Image -->
+                    @if (!string.IsNullOrEmpty(Model.ApplicationUser.ImageFilename))
+                    {
+                        <div class="pe-2">
+                            <img src="~/profile_img/@Model.ApplicationUser.ImageFilename" class="profile-thumbnail" alt="@Model.ApplicationUser.Name" />
+                        </div>
+                    }
                 </div>
             }
+
             <!-- Middle column: Discussion Details -->
             <div class="col-md-9">
                 <div class="card-body">
