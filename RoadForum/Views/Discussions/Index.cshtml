@@ -15,14 +15,17 @@
         <div class="border-bottom py-3 d-flex align-items-center">
             <!-- FLEX FIX -->
             <!-- Left: Title & Content -->
-            <div class="flex-grow-1">
+            <div class="flex-grow-1" style="">
                 <h4>
                     <a asp-action="DiscussionDetails" asp-controller="Home" asp-route-id="@item.DiscussionId"
                        class="text-dark text-decoration-underline hover-link">
                         @Html.DisplayFor(modelItem => item.Title)
                     </a>
                 </h4>
-                <p style="word-wrap: break-word">@Html.DisplayFor(modelItem => item.Content)</p>
+                <!-- Ensure text wraps properly -->
+                <p class="text-break" style="word-wrap: break-word; white-space: normal;">
+                    @Html.DisplayFor(modelItem => item.Content)
+                </p>
                 <small class="text-muted">
                     @Html.DisplayFor(modelItem => item.CreateDate)
                     <a asp-action="GetDiscussion" asp-controller="Home" asp-route-id="@item.DiscussionId" class="text-dark">

@@ -29,6 +29,7 @@ namespace RoadForum.Controllers
         public async Task<IActionResult> DiscussionDetails(int id)
         {
             var discussion = await _context.Discussion
+                .Include(m => m.ApplicationUser)
                 .Include(d => d.Comments) // Ensure comments are loaded
                 .FirstOrDefaultAsync(m => m.DiscussionId == id);
 

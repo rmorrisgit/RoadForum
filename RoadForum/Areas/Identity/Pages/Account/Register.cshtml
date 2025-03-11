@@ -53,7 +53,11 @@
                 <input asp-for="Input.ImageFile" class="form-control" type="file" accept="image/*" />
                 <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
             </div>
-
+                @* <div class="mb-3"> *@
+                @*     <label asp-for="Input.ImageFile" class="form-label"></label> *@
+                @*     <input type="file" asp-for="Input.ImageFile" class="form-control" /> *@
+                @*     <span asp-validation-for="Input.ImageFile" class="text-danger"></span> *@
+                @* </div> *@
             <!-- Submit Button -->
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
