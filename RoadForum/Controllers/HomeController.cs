@@ -31,6 +31,7 @@ namespace RoadForum.Controllers
             var discussion = await _context.Discussion
                 .Include(m => m.ApplicationUser)
                 .Include(d => d.Comments) // Ensure comments are loaded
+                .ThenInclude(c => c.ApplicationUser) // Include ApplicationUser in the comments
                 .FirstOrDefaultAsync(m => m.DiscussionId == id);
 
             if (discussion == null)

@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<RoadForum.Models.Discussion>
 
+
 @{
     ViewData["Title"] = "Discussions";
 }
@@ -7,22 +8,22 @@
 <h3 class="mt-3 mb-4">Discussions</h3>
 
 <div class="container gx-0 col-md-8 ms-0 ps-0">
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderByDescending(d => d.CreateDate))
     {
         <div class="card mb-2">
             <div class="d-flex align-items-center">
                 <!-- FLEX ROW FIX -->
                 <!-- Middle column: Title and Content -->
                 <div class="flex-grow-1">
-                    <div class="card-body ">
+                    <div class="card-body">
                         <!-- Title with Link -->
-                        <h5 class="card-title" style="text-decoration: underline; font-weight: bold">
+                        <h5 class="card-title text-decoration-underline font-weight-bold">
                             <a asp-action="DiscussionDetails" asp-route-id="@item.DiscussionId" class="text-dark text-decoration-none hover-link">
                                 @Html.DisplayFor(modelItem => item.Title)
                             </a>
                         </h5>
-
                     </div>
+
                     <!-- DateCreated and Comments -->
                     <div class="d-flex align-items-center ps-2 pt-2 mb-2" style="white-space: nowrap; margin-top: -11px;">
                         <span class="text-muted">@item.CreateDate.ToString("MMMM dd, yyyy")</span>
@@ -40,8 +41,12 @@
                     {
                         <img src="/photos/@item.ImageFilename" alt="Image" class="thumbnail img-fluid">
                     }
+                    else
+                    {
+                        <!-- Show a default placeholder image if no image exists -->
+                        <img src="/photos/default.jpg" alt="Default Image" class="thumbnail img-fluid">
+                    }
                 </div>
-
             </div>
         </div>
     }
