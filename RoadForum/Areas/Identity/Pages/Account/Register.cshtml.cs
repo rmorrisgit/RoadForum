@@ -102,34 +102,23 @@ namespace RoadForum.Areas.Identity.Pages.Account
                 user.Name = Input.Name;
                 user.Location = Input.Location;
 
-                // Handle Profile Picture Upload
+                // Save the uploaded file after the photo is saved in the database.
                 if (Input.ImageFile != null)
                 {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
+                    string imageFilename = Guid.NewGuid().ToString() + Path.GetExtension(Input.ImageFile?.FileName);
 
-                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
-                    var fileExtension = Path.GetExtension(Input.ImageFile.FileName).ToLower();
-                    if (!allowedExtensions.Contains(fileExtension))
-                    {
-                        return RedirectToPage();  // You could add a model error here
-                    }
-
-                    var newFileName = $"{Guid.NewGuid()}{fileExtension}";
-                    var filePath = Path.Combine(uploadsFolder, newFileName);
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile_img", imageFilename);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await Input.ImageFile.CopyToAsync(fileStream);
                     }
 
-                    user.ImageFilename = $"/uploads/{newFileName}";
+                    user.ImageFilename = imageFilename;
+
                 }
 
-                // mUpdate user data in database
+                // Update user data in database
                 await _userManager.UpdateAsync(user);
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

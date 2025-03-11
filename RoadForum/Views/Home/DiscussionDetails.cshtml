@@ -11,7 +11,16 @@
 <div class="container mt-4 gx-0">
     <div class="card ">
         <div class="row g-0">
-
+            @if (Model.ApplicationUser != null)
+            {
+                <div class="d-flex">
+                    <div></div>
+                    <div>
+                        @Model.ApplicationUser.Name<br />
+                        @Model.ApplicationUser.Location
+                    </div>
+                </div>
+            }
             <!-- Middle column: Discussion Details -->
             <div class="col-md-9">
                 <div class="card-body">

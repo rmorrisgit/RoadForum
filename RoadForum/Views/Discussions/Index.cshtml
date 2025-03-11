@@ -13,8 +13,7 @@
     @foreach (var item in Model)
     {
         <div class="border-bottom py-3 d-flex align-items-center">
-            <!-- FLEX FIX -->
-            <!-- Left: Title & Content -->
+     
             <div class="flex-grow-1" style="">
                 <h4>
                     <a asp-action="DiscussionDetails" asp-controller="Home" asp-route-id="@item.DiscussionId"
@@ -22,7 +21,7 @@
                         @Html.DisplayFor(modelItem => item.Title)
                     </a>
                 </h4>
-                <!-- Ensure text wraps properly -->
+     
                 <p class="text-break" style="word-wrap: break-word; white-space: normal;">
                     @Html.DisplayFor(modelItem => item.Content)
                 </p>
@@ -34,7 +33,7 @@
                 </small>
             </div>
 
-            <!-- Middle: Image (fixed size, prevents wrapping) -->
+    
             <div class="flex-shrink-0 bg-dark text-center me-2" style="width: 80px;">
                 @if (!string.IsNullOrWhiteSpace(item.ImageFilename))
                 {
@@ -42,7 +41,7 @@
                 }
             </div>
 
-            <!-- Right: Actions -->
+        
             <div class="d-flex flex-column align-items-end text-end">
                 <a asp-action="Edit" asp-route-id="@item.DiscussionId" class="btn btn-sm">
                     <i class="fas fa-edit"></i> Edit

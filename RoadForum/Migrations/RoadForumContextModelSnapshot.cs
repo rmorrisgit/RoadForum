@@ -264,7 +264,7 @@ namespace RoadForum.Migrations
 
                     b.HasIndex("DiscussionId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("RoadForum.Models.Discussion", b =>
@@ -297,7 +297,7 @@ namespace RoadForum.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Discussion");
+                    b.ToTable("Discussion", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
