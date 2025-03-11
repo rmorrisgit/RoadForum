@@ -20,6 +20,19 @@
             @*     <label asp-for="Input.PhoneNumber" class="form-label"></label> *@
             @*     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span> *@
             @* </div> *@
+
+            @if (!string.IsNullOrEmpty(Model.Input.ImageFilename))
+            {
+                <div class="mb-3">
+                    <img src="~/profile_img/@Model.Input.ImageFilename" class="profile-thumbnail" />
+                </div>
+            }
+            <div class="mb-3">
+                <label asp-for="Input.ImageFile" class="form-label"></label>
+                <input type="file" asp-for="Input.ImageFile" class="form-control" />
+                <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
+
+            </div>
             <div class="mb-3">
                 <label asp-for="Input.Name" class="form-label"></label>
                 <input asp-for="Input.Name" class="form-control" />
@@ -31,16 +44,12 @@
                  <input asp-for="Input.Location" class="form-control" />
                 <span asp-validation-for="Input.Location" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="Input.ImageFile" class="form-label">Upload Profile Picture</label>
-                <input asp-for="Input.ImageFile" class="form-control" type="file" accept="image/*" />
-                <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
-            </div>
-
+ 
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
+
+
     </div>
-</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

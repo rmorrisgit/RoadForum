@@ -95,8 +95,11 @@ namespace RoadForum.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
-            };
+                PhoneNumber = phoneNumber,
+                Name = user.Name, // Load the user name from the ApplicationUser
+                Location = user.Location, // Load the user's location
+                ImageFilename = user.ImageFilename // Load the profile image filename
+        };
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -154,35 +157,19 @@ namespace RoadForum.Areas.Identity.Pages.Account.Manage
             // Handle Profile Picture Upload
             if (Input.ImageFile != null)
             {
-                // Ensure the directory exists
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+                string imageFilename = Guid.NewGuid().ToString() + Path.GetExtension(Input.ImageFile?.FileName);
 
-                // Validate File Type (only allow jpg, png)
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
-                var fileExtension = Path.GetExtension(Input.ImageFile.FileName).ToLower();
-                if (!allowedExtensions.Contains(fileExtension))
-                {
-                    StatusMessage = "Invalid file format. Only JPG and PNG are allowed.";
-                    return RedirectToPage();
-                }
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile_img", imageFilename);
 
-                // Generate a unique filename
-                var newFileName = $"{Guid.NewGuid()}{fileExtension}";
-                var filePath = Path.Combine(uploadsFolder, newFileName);
-
-                // Save the file
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await Input.ImageFile.CopyToAsync(fileStream);
                 }
 
-                // Update user profile with the new filename
-                user.ImageFilename = $"/uploads/{newFileName}";
+                user.ImageFilename = imageFilename; // change the filename  
+
             }
+
 
             await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);

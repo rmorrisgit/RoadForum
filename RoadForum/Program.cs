@@ -33,5 +33,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+app.UseStaticFiles(); // This enables serving static files like images
 app.MapRazorPages().WithStaticAssets();
 app.Run();
